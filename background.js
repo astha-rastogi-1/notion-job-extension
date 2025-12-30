@@ -15,7 +15,33 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return { ok: false, error: 'Notion token or database ID not set. Open Options.' };
     }
   
-    const notionVersion = notion_version || "2022-06-28";
+    const notionVersion = notion_version || "2025-09-03"; // latest version as of 2025-12-30
+
+    let dataSourceId;
+    try {
+      const dbResp = await fetch(`https://api.notion.com/v1/databases/${notion_database_id}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${notion_token}`,
+          "Content-Type": "application/json",
+          "Notion-Version": notionVersion
+        }
+      });
+      if (!dbResp.ok) {
+        const txt = await dbResp.text();
+        return {ok: false, error: `Error fetching database info: ${dbResp.status} ${txt}`};
+      }
+
+      const dbData = await dbResp.json();
+      console.log(dbData)
+      // take first data source
+      if (!dbData.data_sources || dbData.data_sources.length === 0) {
+        return { ok: false, error: "No data sources found for database."};
+      }
+      dataSourceId = dbData.data_sources[0].id;
+    } catch (err) {
+      return { ok: false, error: 'Failed to get data_source_id: ' + err.message};
+    }
   
     // Build Notion properties - adapt to your DB schema keys
     const properties = {
@@ -76,7 +102,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           "Notion-Version": notionVersion
         },
         body: JSON.stringify({
-          parent: { database_id: notion_database_id },
+          parent: { type: "data_source_id", data_source_id: dataSourceId },
           properties
         //   children
         })

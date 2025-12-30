@@ -16,7 +16,7 @@ saveBtn.addEventListener('click', async () => {
   await chrome.storage.local.set({
     notion_token: tokenInput.value.trim(),
     notion_database_id: dbInput.value.trim(),
-    notion_version: versionInput.value.trim() || "2022-06-28"
+    notion_version: versionInput.value.trim() || "2025-09-03"
   });
   status.textContent = "Saved ✅";
   setTimeout(()=> status.textContent = "", 3000);
