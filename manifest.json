@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Notion Job Tracker",
+    "version": "1.0",
+    "description": "Add job postings to your Notion job-tracking database with one click.",
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "storage"
+    ],
+    "host_permissions": [
+      "*://*/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "Add job to Notion"
+    },
+    "options_page": "options.html",
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+      }
+    ]
+  }
+  

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"/><title>Options - Notion Job Tracker</title></head>
+  <body style="font-family: Arial; padding:12px; width:420px;">
+    <h3>Notion Settings</h3>
+    <p>
+      Create an integration in Notion, share your job-tracking database with that integration, then paste the Integration token and Database ID here.
+    </p>
+
+    <label>Notion Integration Token
+      <input id="token" style="width:100%;"/>
+    </label>
+
+    <label>Notion Database ID
+      <input id="dbid" style="width:100%;"/>
+    </label>
+
+    <label>Notion Version (optional)
+      <input id="version" placeholder="2022-06-28" style="width:100%;"/>
+    </label>
+
+    <button id="save">Save</button>
+    <div id="status" style="margin-top:8px"></div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
